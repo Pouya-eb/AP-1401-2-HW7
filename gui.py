@@ -61,6 +61,36 @@ class App(QMainWindow, QWidget, Form):
         self.progressBar.setValue(self.step)
         self.lcd.display(self.step)
 
+    def mousePressEvent(self, event):
+        if event.button() == 1:
+            
+            cursor = QCursor()
+            curserPos = cursor.pos()
+            curserX = curserPos.x()
+            curserY = curserPos.y()
+
+            windowPos =  self.pos()
+            windowX = windowPos.x()
+            windowY = windowPos.y()
+
+            lcdPos = self.lcd.size()
+            lcdX = lcdPos.width()
+            lcdY = lcdPos.height()
+
+            realX = curserX - windowX - 30 - floor(lcdX/2)
+            realY = curserY - windowY - 30 - floor(lcdY/2)
+
+            conditionX = (0 < realX) and (realX < 401)
+            conditionY = (0 < realY) and (realY < 401)
+
+            xMove = floor(realX / 51)
+            yMove = floor(realY / 51)
+
+            if(conditionX and conditionY):
+                self.start()
+                self.lcd.move(xMove * 51, yMove * 51)
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
