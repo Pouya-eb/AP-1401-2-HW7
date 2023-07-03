@@ -16,7 +16,7 @@ class App(QMainWindow, QWidget, Form):
 
         self.progressBar.hide()
         # self.btnStart.clicked.connect(self.start)
-        # self.btnSetTimer.clicked.connect(self.set)
+        self.btnSetTimer.clicked.connect(self.set)
 
         # self.btnResume.clicked.connect(self.resume)
         self.btnResume.hide()
@@ -29,6 +29,13 @@ class App(QMainWindow, QWidget, Form):
         self.totalTime = 100
 
         self.lcd.hide()
+
+    def set(self):
+        textboxValue = int(self.textbox.text())
+        self.totalTime = textboxValue * 10
+        return
+
+
 
 
 if __name__ == "__main__":
