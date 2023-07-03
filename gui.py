@@ -15,13 +15,13 @@ class App(QMainWindow, QWidget, Form):
         self.setupUi(self)
 
         self.progressBar.hide()
-        # self.btnStart.clicked.connect(self.start)
+        self.btnStart.clicked.connect(self.start)
         self.btnSetTimer.clicked.connect(self.set)
 
-        # self.btnResume.clicked.connect(self.resume)
+        self.btnResume.clicked.connect(self.resume)
         self.btnResume.hide()
 
-        # self.btnPause.clicked.connect(self.pause)
+        self.btnPause.clicked.connect(self.pause)
         self.btnPause.hide()
 
         self.timer = QBasicTimer()
@@ -35,7 +35,31 @@ class App(QMainWindow, QWidget, Form):
         self.totalTime = textboxValue * 10
         return
 
+    def start(self):
+        self.step = 0
+        self.progressBar.setValue(0)
+        self.lcd.show()
+        self.progressBar.show()
+        self.btnResume.show()
+        self.btnPause.show()
+        self.resume()
 
+    def pause(self):
+        if self.timer.isActive():
+            self.timer.stop()
+
+    def resume(self):
+        self.timer.start(self.totalTime, self)
+    
+    def timerEvent(self, event):
+        if self.step >= 100:
+            self.timer.stop()
+            self.progressBar.hide()
+            return
+
+        self.step += 1
+        self.progressBar.setValue(self.step)
+        self.lcd.display(self.step)
 
 
 if __name__ == "__main__":
